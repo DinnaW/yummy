@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Top Picks - Yummy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+      .food-hero-section {
+        padding: 42px 24px 56px;
+        background: #f7f8fa;
+        overflow: hidden;
+      }
+
+      .food-hero-wrapper.partner-dynamic-hero {
+        width: min(1680px, calc(100% - 40px));
+        margin: 0 auto;
+        display: grid !important;
+        grid-template-columns: minmax(0, 2.45fr) minmax(320px, 1fr) !important;
+        gap: 24px !important;
+        align-items: stretch !important;
+      }
+
+      .partner-dynamic-hero .food-hero-main,
+      .partner-dynamic-hero .hero-food-image,
+      .partner-dynamic-hero .food-hero-side,
+      .partner-dynamic-hero .side-card {
+        min-width: 0 !important;
+        min-height: 0 !important;
+      }
+
+      .partner-dynamic-hero .food-hero-main,
+      .partner-dynamic-hero .side-card {
+        position: relative !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        border-radius: 24px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        height: auto !important;
+        max-height: none !important;
+        display: block !important;
+      }
+
+      .partner-dynamic-hero .food-hero-main {
+        aspect-ratio: 1.4 / 1;
+      }
+
+      .partner-dynamic-hero .hero-food-image {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        overflow: hidden !important;
+        border-radius: inherit !important;
+      }
+
+      .partner-dynamic-hero .food-hero-side {
+        display: grid !important;
+        grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+        height: 100% !important;
+      }
+
+      .partner-dynamic-hero .side-card {
+        aspect-ratio: 1.18 / 1;
+      }
+
+      .partner-dynamic-hero .side-card-content,
+      .partner-dynamic-hero .side-card::before,
+      .partner-dynamic-hero .side-card::after,
+      .partner-dynamic-hero .hero-card::before,
+      .partner-dynamic-hero .hero-card::after {
+        display: none !important;
+        content: none !important;
+      }
+
+      .partner-dynamic-hero .food-hero-main img,
+      .partner-dynamic-hero .side-card img {
+        position: static !important;
+        inset: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: fill !important;
+        object-position: center center !important;
+        display: block !important;
+        border-radius: 0 !important;
+      }
+
+      @media (max-width: 1050px) {
+        .food-hero-wrapper.partner-dynamic-hero {
+          grid-template-columns: 1fr !important;
+          width: min(100%, 760px);
+          align-items: start !important;
+        }
+
+        .partner-dynamic-hero .food-hero-side {
+          grid-template-rows: none !important;
+          height: auto !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .food-hero-section {
+          padding: 24px 14px 38px;
+        }
+
+        .food-hero-wrapper.partner-dynamic-hero {
+          width: 100%;
+          gap: 16px !important;
+        }
+
+        .partner-dynamic-hero .food-hero-side {
+          gap: 16px !important;
+        }
+
+        .partner-dynamic-hero .food-hero-main,
+        .partner-dynamic-hero .side-card {
+          border-radius: 18px !important;
+        }
+      }
+
+      .partner-promo-banners {
+        padding: 44px 0 70px;
+      }
+
+      .partner-promo-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.95fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .partner-promo-left {
+        display: grid;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .partner-promo-card {
+        position: relative;
+        min-height: 220px;
+        border-radius: 24px;
+        overflow: hidden;
+        background: #f5f5f5;
+      }
+
+      .partner-promo-card.large {
+        min-height: 464px;
+      }
+
+      .partner-promo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .partner-promo-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .partner-promo-card,
+        .partner-promo-card.large {
+          min-height: 220px;
+        }
+      }
+    </style>
+
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="pizza-header">
+      <div class="pizza-header-inner">
+        <a href="index.html" class="pizza-logo">
+          <img src="https://placehold.co/120x40/cc2200/ffffff?text=RedOven" alt="Red Oven Pizza Logo">
+        </a>
+        <nav class="pizza-nav">
+          <a href="index.html" class="active">Home</a>
+          <a href="#menu">Menu</a>
+          <a href="#deals">Deals</a>
+          <a href="#top-picks">Pizza</a>
+          <a href="#top-picks">Combos</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#about-shop">Locations</a>
+          <a href="#profile" data-show-profile>Profile</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="pizza-actions">
+          <button class="icon-btn profile-link" type="button" id="openProfileBtn" aria-label="User Account" data-show-profile>
+            <i data-lucide="user"></i>
+          </button>
+          <button class="cart-btn" aria-label="Cart">
+            <i data-lucide="shopping-bag"></i>
+            <span class="cart-count">0</span>
+          </button>
+          <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#deals">Deals</a>
+        <a href="#top-picks">Pizza</a>
+        <a href="#top-picks">Combos</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#about-shop">Locations</a>
+        <a href="#profile" data-show-profile>Profile</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </header>
+
+    <!-- Food Hero Section -->
+    <section class="food-hero-section" id="home">
+      <div class="food-hero-wrapper partner-dynamic-hero">
+        <div class="food-hero-main hero-card reveal-item">
+          <div class="hero-food-image" id="heroImageContainer">
+            <img id="heroMainImg" src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=900&h=640&fit=crop" alt="Hero main image">
+          </div>
+        </div>
+        <div class="food-hero-side">
+          <div class="side-card dark-card reveal-item">
+            <img id="heroDealImg" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=420&fit=crop" alt="Burger combo meal">
+          </div>
+          <div class="side-card light-card reveal-item">
+            <img id="heroPizzaNightImg" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&h=420&fit=crop" alt="Family pizza meal">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food Category Carousel Section -->
+    <section class="food-category-section">
+      <div class="food-category-container">
+        <div class="food-category-header">
+          <h2>Explore Our Categories</h2>
+          <div class="carousel-nav" style="display: flex; gap: 10px;">
+            <button class="nav-btn prev-btn-cat"><i class="fas fa-arrow-left"></i></button>
+            <button class="nav-btn next-btn-cat"><i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="food-category-carousel">
+          <div class="food-category-track">
+
+            <div class="food-category-card" data-category="Pizza">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120&h=120&fit=crop" alt="Pizza">
+              </div>
+              <h3>Pizza</h3>
+              <p>234+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Pasta">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=120&h=120&fit=crop" alt="Pasta">
+              </div>
+              <h3>Pasta</h3>
+              <p>160+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Appetizers">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=120&h=120&fit=crop" alt="Appetizers">
+              </div>
+              <h3>Appetizers</h3>
+              <p>120+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Drinks">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=120&h=120&fit=crop" alt="Drinks">
+              </div>
+              <h3>Drinks</h3>
+              <p>95+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Desserts">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=120&h=120&fit=crop" alt="Desserts">
+              </div>
+              <h3>Desserts</h3>
+              <p>140+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Burgers">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=120&h=120&fit=crop" alt="Burgers">
+              </div>
+              <h3>Burgers</h3>
+              <p>180+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Salads">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=120&h=120&fit=crop" alt="Salads">
+              </div>
+              <h3>Salads</h3>
+              <p>85+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Sandwiches">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=120&h=120&fit=crop" alt="Sandwiches">
+              </div>
+              <h3>Sandwiches</h3>
+              <p>110+ items</p>
+            </div>
+
+            <div class="food-category-card" data-category="Fried Chicken">
+              <div class="food-icon">
+                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=120&h=120&fit=crop" alt="Fried Chicken">
+              </div>
+              <h3>Fried Chicken</h3>
+              <p>150+ items</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Picks Section -->
+    <section class="top-picks-section" id="top-picks">
+        <div class="container">
+            <div class="section-header-top">
+                <h2 class="section-title">Our top picks</h2>
+                <a href="#" class="view-menu-link">View menu <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-filters" id="dynamic-filters"></div>
+            <div class="menu-grid" id="dynamic-menu-grid"></div>
+        </div>
+    </section>
+
+    <!-- Middle Promotional Banner Section -->
+    <section class="top-image-section partner-promo-banners" id="deals">
+        <div class="container">
+            <div class="partner-promo-grid">
+                <div class="partner-promo-left">
+                    <div class="partner-promo-card">
+                        <img id="middleBannerTopImg" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&h=300&fit=crop" alt="Top left promotional banner">
+                    </div>
+                    <div class="partner-promo-card">
+                        <img id="middleBannerBottomImg" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&h=300&fit=crop" alt="Bottom left promotional banner">
+                    </div>
+                </div>
+                <div class="partner-promo-card large">
+                    <img id="middleBannerLargeImg" src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=700&h=600&fit=crop" alt="Large right promotional banner">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Menu Section -->
+    <section class="full-menu-section" id="menu">
+        <div class="container">
+            <div class="full-menu-layout">
+                <aside class="menu-sidebar">
+                    <h2 class="sidebar-title">Explore Menu</h2>
+                    <ul class="sidebar-categories" id="sidebarCategories">
+                        <li class="active">All Items</li>
+                        <li>Pizza</li>
+                        <li>Pasta</li>
+                        <li>Burgers</li>
+                        <li>Appetizers</li>
+                        <li>Salads</li>
+                        <li>Desserts</li>
+                        <li>Drinks</li>
+                    </ul>
+                </aside>
+                <div class="menu-main-content">
+                    <div class="menu-info-bar">
+                        <i data-lucide="info"></i>
+                        <span>Select dishes can be made gluten-free or vegan upon request</span>
+                    </div>
+                    <div class="full-menu-grid">
+                        <div class="fm-card" data-category="Pasta">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt="Egg Chicken Spaghetti">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Egg Chicken Spaghetti</h3>
+                                <p class="fm-desc">Spaghetti, Egg, Syrup, Sauces</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$57.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fm-card" data-category="Salads">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop" alt="Salmon Salad">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Salmon Salad</h3>
+                                <p class="fm-desc">Salmon, Egg, Tomato, Greens</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$68.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fm-card" data-category="Pasta">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&h=400&fit=crop" alt="Shrimp Noodles">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Shrimp Noodles</h3>
+                                <p class="fm-desc">Shrimp, Lemon, Noodles, Brocolli</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$40.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fm-card" data-category="Burgers">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop" alt="Lemon Chicken Grill">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Lemon Chicken Grill</h3>
+                                <p class="fm-desc">Spices, Lemon, Chicken, Sweet, Onion</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$95.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fm-card" data-category="Appetizers">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=400&fit=crop" alt="Veggie Supreme Pizza">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Veggie Supreme</h3>
+                                <p class="fm-desc">Olive, Mushroom, Bell Pepper</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$45.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fm-card" data-category="Appetizers">
+                            <div class="fm-img-wrapper">
+                                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=400&fit=crop" alt="Salmon Roast">
+                            </div>
+                            <div class="fm-content">
+                                <h3 class="fm-title">Salmon Roast</h3>
+                                <p class="fm-desc">Spaghetti, Egg, Syrup, Bread</p>
+                                <div class="fm-footer">
+                                    <span class="fm-price">$67.00</span>
+                                    <button class="action-btn-group add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Overlay & Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar new-cart-design" id="cartSidebar">
+        <div class="cart-header-new">
+            <button class="close-cart-new" id="closeCartBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <i class="fas fa-ellipsis-h" style="cursor:pointer; padding: 10px;"></i>
+        </div>
+        <div class="store-info-row">
+            <img src="https://placehold.co/48x48/cc2200/ffffff?text=RO" alt="Red Oven Pizza" class="store-info-img">
+            <div class="store-info-text">
+                <h3>Royal Bakery</h3>
+                <p>202 Galle Rd</p>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="cart-body-new">
+            <div class="cart-items-new" id="cartItemsContainer"></div>
+            <div class="cart-options-new">
+                <label class="utensil-request">
+                    <span><i class="fas fa-utensils"></i> Request utensils, etc.</span>
+                    <input type="checkbox">
+                </label>
+                <div class="order-note-new">
+                    <p>Add an order note<br><small>Utensils, special instructions, etc.</small></p>
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer-new">
+            <div class="subtotal-row">
+                <span>Subtotal</span>
+                <span id="cartTotalPrice">LKR 0.00</span>
+            </div>
+            <button class="goto-checkout-btn" id="goToCheckoutBtn">Go to checkout</button>
+        </div>
+    </div>
+
+    <!-- Upsell Modal -->
+    <div class="modal-overlay" id="upsellOverlay">
+        <div class="upsell-modal yhm-popular-modal" role="dialog" aria-modal="true" aria-labelledby="popularTitle">
+            <button class="close-modal yhm-popular-close" id="closeUpsellBtn" aria-label="Close popular items">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="upsell-header yhm-popular-header">
+                <span class="yhm-popular-kicker">Our popular ones</span>
+                <h2 id="popularTitle">Add something extra</h2>
+                <p>Pick a quick favourite before checkout.</p>
+            </div>
+            <div class="upsell-grid yhm-popular-grid">
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&h=200&fit=crop" alt="Cheese Pizza Slice">
+                        <button class="upsell-add-btn" aria-label="Add Cheese Pizza Slice"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Cheese Pizza Slice</h4><p>LKR 390.00</p></div>
+                </div>
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" alt="Chicken Burger">
+                        <button class="upsell-add-btn" aria-label="Add Chicken Burger"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Chicken Burger</h4><p>LKR 650.00</p></div>
+                </div>
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=200&h=200&fit=crop" alt="Crispy Chicken">
+                        <button class="upsell-add-btn" aria-label="Add Crispy Chicken"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Crispy Chicken</h4><p>LKR 520.00</p></div>
+                </div>
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=200&h=200&fit=crop" alt="Creamy Pasta">
+                        <button class="upsell-add-btn" aria-label="Add Creamy Pasta"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Creamy Pasta</h4><p>LKR 790.00</p></div>
+                </div>
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=200&h=200&fit=crop" alt="Garlic Bread">
+                        <button class="upsell-add-btn" aria-label="Add Garlic Bread"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Garlic Bread</h4><p>LKR 340.00</p></div>
+                </div>
+                <div class="upsell-card yhm-popular-card">
+                    <div class="upsell-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&h=200&fit=crop" alt="Fresh Mojito">
+                        <button class="upsell-add-btn" aria-label="Add Fresh Mojito"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="upsell-info"><h4>Fresh Mojito</h4><p>LKR 290.00</p></div>
+                </div>
+            </div>
+            <button class="skip-btn yhm-popular-checkout" id="upsellSkipBtn">Continue to checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal Fullscreen -->
+    <div class="checkout-overlay" id="checkoutOverlay">
+        <div class="checkout-container">
+            <div class="checkout-layout">
+                <div class="checkout-left">
+                    <h2 class="chk-main-title"><i class="fas fa-arrow-left" id="closeCheckoutBtn" style="cursor:pointer; margin-right: 15px;"></i> Delivery details</h2>
+                    <div class="chk-box">
+                        <div class="chk-row">
+                            <i class="fas fa-shopping-bag"></i>
+                            <div class="chk-text">Nugegoda</div>
+                            <button class="chk-edit">Edit</button>
+                        </div>
+                        <div class="chk-divider"></div>
+                        <div class="chk-row">
+                            <i class="fas fa-user"></i>
+                            <div class="chk-text">
+                                <strong>Meet at my door</strong>
+                                <p class="green-text">Add delivery instructions</p>
+                            </div>
+                            <button class="chk-edit">Edit</button>
+                        </div>
+                    </div>
+                    <h3 class="chk-section-title">Delivery options</h3>
+                    <div class="chk-box delivery-options">
+                        <label class="chk-option">
+                            <i class="fas fa-bolt green-icon"></i>
+                            <div class="chk-opt-text"><strong>Priority</strong><p>10:46-10:59 AM • Direct to you</p></div>
+                            <span class="chk-opt-price">+LKR 129.00</span>
+                        </label>
+                        <label class="chk-option active">
+                            <i class="fas fa-door-open"></i>
+                            <div class="chk-opt-text"><strong>Standard</strong><p>10:52-11:07 AM</p></div>
+                            <input type="radio" checked name="delivery" style="display:none">
+                        </label>
+                        <label class="chk-option">
+                            <i class="fas fa-calendar"></i>
+                            <div class="chk-opt-text"><strong>Schedule</strong><p>Choose a time</p></div>
+                        </label>
+                    </div>
+                    <h3 class="chk-section-title">Payment</h3>
+                    <div class="chk-box">
+                      <label class="chk-option active payment-option">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div class="chk-opt-text"><strong>Cash</strong><p>Pay when your order arrives</p></div>
+                        <input type="radio" checked name="payment" style="display:none">
+                      </label>
+                      <label class="chk-option payment-option">
+                        <i class="fab fa-cc-visa" style="font-size: 24px; color: #1a1f71;"></i>
+                        <div class="chk-opt-text"><strong>Visa Debit</strong><p>Visa ••••4136</p></div>
+                        <input type="radio" name="payment" style="display:none">
+                      </label>
+                    </div>
+                    <button class="chk-place-order-large">Place order</button>
+                </div>
+                <div class="checkout-right">
+                    <div class="chk-store-info">
+                       <img src="https://placehold.co/48x48/cc2200/ffffff?text=RO" alt="Red Oven Pizza" class="store-info-img">
+                       <div class="store-info-text"><h3>Red Oven Pizza</h3><p>Nugegoda</p></div>
+                       <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <button class="chk-place-order-small">Place order</button>
+                    <div class="chk-cart-summary" id="chkCartSummary">
+                      <span><i class="fas fa-shopping-cart"></i> Cart summary (<span id="chkItemsCount">1</span> item)</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="chk-cart-items" id="chkCartItems" style="display:none;"></div>
+                    <div class="chk-promo">
+                        <div class="promo-header"><span>Promotion</span></div>
+                        <div class="promo-btn">
+                            <span><i class="fas fa-tag"></i> Add promo code</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="chk-totals">
+                        <h3>Order total</h3>
+                        <div class="tot-row"><span>Subtotal</span> <span id="chkFinalSubtotal">LKR 250.00</span></div>
+                        <div class="tot-row reward"><span>Yummy Credits</span> <span><i class="fas fa-coins"></i> -LKR 41.09</span></div>
+                        <div class="tot-row"><span>Delivery Fee <i class="fas fa-info-circle"></i></span> <span>LKR 99.00</span></div>
+                        <div class="tot-row"><span>Service Fee <i class="fas fa-info-circle"></i></span> <span>LKR 25.00</span></div>
+                        <div class="tot-row final"><span>Total</span> <span id="chkFinalTotal">LKR 332.91</span></div>
+                    </div>
+                    <p class="chk-disclaimer">By placing your order, you agree to the delivery details and payment method selected above.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Placed / Tracking Overlay -->
+    <div class="order-placed-overlay" id="orderPlacedOverlay" style="display:none;">
+      <div class="order-placed-inner">
+        <div class="order-map" id="orderMap">
+          <div id="orderMapCanvas" class="order-map-canvas"></div>
+        </div>
+        <div class="order-card">
+          <div class="order-card-header">
+            <h3>Order placed</h3>
+            <p class="eta-text" id="driverEta">ETA: 18 mins</p>
+          </div>
+          <div class="order-summary">
+            <div class="summary-store">
+              <img src="https://placehold.co/48x48/cc2200/ffffff?text=RO" alt="Red Oven Pizza" class="store-thumb">
+              <div>
+                <div class="store-name">Red Oven Pizza</div>
+                <div class="store-addr">Nugegoda</div>
+              </div>
+            </div>
+            <div class="summary-items" id="orderPlacedItems"></div>
+            <div class="summary-total">
+              <span>Total</span>
+              <strong id="orderPlacedTotal">LKR 0.00</strong>
+            </div>
+            <div class="order-actions">
+              <button class="btn secondary" id="closeTrackingBtn">Close</button>
+              <button class="btn" id="contactRiderBtn">Contact rider</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop About Section -->
+    <section class="shop-about-section" id="about-shop">
+      <div class="container">
+        <div class="shop-about-card">
+          <div class="shop-about-content">
+            <span class="section-label">About Us</span>
+            <h2>Red Oven Pizza</h2>
+            <p class="shop-description">
+              Red Oven Pizza brings you the authentic taste of freshly baked pizzas, crafted with passion and the finest ingredients for a perfect meal.
+            </p>
+            <div class="shop-details">
+              <div class="detail-card">
+                <div class="detail-icon"><i data-lucide="map-pin"></i></div>
+                <div class="detail-content">
+                  <h3>Location</h3>
+                  <p>Red Oven Pizza</p>
+                  <p>Street Food City, NY 10001</p>
+                </div>
+              </div>
+              <div class="detail-card">
+                <div class="detail-icon"><i data-lucide="clock-3"></i></div>
+                <div class="detail-content">
+                  <h3>Open Times</h3>
+                  <p>Mon : 10AM - 10PM</p>
+                  <p>Tue &nbsp;: 10AM - 10PM</p>
+                  <p>Wed : 10AM - 10PM</p>
+                  <p>Thu &nbsp;: 10AM - 10PM</p>
+                  <p>Fri &nbsp;&nbsp;&nbsp;: 10AM - 10PM</p>
+                  <p>Sat - Sun: 11AM - 11PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shop-slider">
+            <div class="slider-track">
+              <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&h=500&fit=crop" alt="Red Oven Pizza storefront">
+              </div>
+              <div class="slide">
+                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&h=500&fit=crop" alt="Pizza oven">
+              </div>
+              <div class="slide">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&h=500&fit=crop" alt="Red Oven Pizza interior">
+              </div>
+              <div class="slide">
+                <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=700&h=500&fit=crop" alt="Red Oven Pizza dining area">
+              </div>
+            </div>
+            <div class="slider-dots">
+              <button class="dot active" aria-label="Slide 1"></button>
+              <button class="dot" aria-label="Slide 2"></button>
+              <button class="dot" aria-label="Slide 3"></button>
+              <button class="dot" aria-label="Slide 4"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonial-section">
+      <div class="testimonial-container container">
+        <div class="testimonial-header">
+          <span class="section-label">Testimonials</span>
+          <h2>What Our Clients Say</h2>
+        </div>
+        <div class="testimonial-carousel-wrap">
+          <button class="testimonial-arrow testimonial-prev" aria-label="Previous testimonial">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <div class="testimonial-carousel">
+            <div class="testimonial-track">
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">The pizza was fresh, hot, and full of flavor. The crust was perfect and the delivery was right on time.</p>
+                <div class="client-info">
+                  <div class="client-avatar">A</div>
+                  <div><h4>Andrew Miles</h4><span>Regular Customer</span></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">Red Oven Pizza has become our favorite weekend spot. Great taste, friendly service, and amazing deals.</p>
+                <div class="client-info">
+                  <div class="client-avatar">S</div>
+                  <div><h4>Sophia Carter</h4><span>Food Lover</span></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">I loved the quality of the ingredients. Everything tasted fresh, and the pizza arrived warm and delicious.</p>
+                <div class="client-info">
+                  <div class="client-avatar">M</div>
+                  <div><h4>Michael Brown</h4><span>Happy Client</span></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">The family pizza deal was excellent. The portion size was generous, and everyone enjoyed the meal.</p>
+                <div class="client-info">
+                  <div class="client-avatar">E</div>
+                  <div><h4>Emily Wilson</h4><span>Family Customer</span></div>
+                </div>
+              </div>
+              <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">Fast service, clean packaging, and a really premium taste. I will definitely order again from Red Oven Pizza.</p>
+                <div class="client-info">
+                  <div class="client-avatar">D</div>
+                  <div><h4>Daniel Scott</h4><span>Online Customer</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="testimonial-arrow testimonial-next" aria-label="Next testimonial">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+        <div class="testimonial-dots">
+          <button class="testimonial-dot active" aria-label="Testimonial slide 1"></button>
+          <button class="testimonial-dot" aria-label="Testimonial slide 2"></button>
+          <button class="testimonial-dot" aria-label="Testimonial slide 3"></button>
+          <button class="testimonial-dot" aria-label="Testimonial slide 4"></button>
+          <button class="testimonial-dot" aria-label="Testimonial slide 5"></button>
+        </div>
+
+        <div class="add-review-panel">
+          <div class="add-review-top">
+            <div class="add-review-intro">
+              <span class="section-label">Share Your Experience</span>
+              <h3>Share Your Valuable Thoughts with Us</h3>
+            </div>
+            <button type="button" class="open-review-btn" id="openReviewFormBtn">
+              <i data-lucide="plus"></i>
+              Add Review
+            </button>
+          </div>
+          <form class="review-form review-form-hidden" id="reviewForm">
+            <button type="button" class="close-review-form-btn" id="closeReviewFormBtn" aria-label="Close review form">
+              <i data-lucide="x"></i>
+            </button>
+            <div class="review-form-row">
+              <div class="review-field">
+                <label for="reviewName">Your Name</label>
+                <input type="text" id="reviewName" name="reviewName" placeholder="Enter your name" maxlength="40" required>
+              </div>
+              <div class="review-field">
+                <label for="reviewRole">Customer Type</label>
+                <input type="text" id="reviewRole" name="reviewRole" placeholder="Regular Customer" maxlength="40">
+              </div>
+              <div class="review-field">
+                <label for="reviewRating">Rating</label>
+                <select id="reviewRating" name="reviewRating" required>
+                  <option value="5">★★★★★ 5 Stars</option>
+                  <option value="4">★★★★☆ 4 Stars</option>
+                  <option value="3">★★★☆☆ 3 Stars</option>
+                  <option value="2">★★☆☆☆ 2 Stars</option>
+                  <option value="1">★☆☆☆☆ 1 Star</option>
+                </select>
+              </div>
+            </div>
+            <div class="review-field review-message-field">
+              <label for="reviewMessage">Your Review</label>
+              <textarea id="reviewMessage" name="reviewMessage" placeholder="Write your review..." maxlength="180" required></textarea>
+              <small id="reviewCounter">0/180</small>
+            </div>
+            <div class="review-submit-row">
+              <button type="submit" class="submit-review-btn">
+                <i data-lucide="send"></i>
+                Add Review
+              </button>
+              <p class="review-form-message" id="reviewFormMessage"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Profile Page -->
+    <main class="profile-page" id="profile" aria-label="User profile page">
+    <section class="profile-hero-section">
+      <div class="profile-shell">
+        <div class="profile-hero-grid">
+          <div class="profile-welcome-card reveal-profile">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profileAvatar">C</div>
+              <button class="avatar-edit-btn" type="button" aria-label="Change photo"><i class="fas fa-camera"></i></button>
+            </div>
+            <div class="profile-welcome-copy">
+              <span class="profile-kicker">Yummy account</span>
+              <h1>Hi, <span id="profileFirstName">Chethaka</span></h1>
+              <p>Manage orders, saved addresses, loyalty rewards, coupons, food preferences, and delivery settings from one clean profile dashboard.</p>
+              <div class="profile-main-actions">
+                <a href="#menu" class="profile-primary-btn"><i class="fas fa-utensils"></i> Order again</a>
+                <button class="profile-secondary-btn" type="button" data-open-tab="settings"><i class="fas fa-pen"></i> Edit profile</button>
+              </div>
+            </div>
+          </div>
+          <aside class="loyalty-glass-card reveal-profile">
+            <div class="loyalty-topline">
+              <span class="tier-pill" id="tierPill"><i class="fas fa-crown"></i> Gold member</span>
+              <span class="member-since">Member since 2026</span>
+            </div>
+            <div class="points-row">
+              <div>
+                <span class="micro-label">Available points</span>
+                <h2><span id="loyaltyPoints">2,480</span></h2>
+              </div>
+              <div class="points-coin"><i class="fas fa-coins"></i></div>
+            </div>
+            <div class="tier-progress-block">
+              <div class="tier-progress-text">
+                <span id="nextTierText">520 points to Platinum</span>
+                <strong id="tierProgressPercent">83%</strong>
+              </div>
+              <div class="tier-progress-track">
+                <span id="tierProgressBar" style="width: 83%;"></span>
+              </div>
+            </div>
+            <div class="loyalty-card-actions">
+              <button class="profile-primary-btn small" type="button" data-open-tab="rewards">Redeem rewards</button>
+              <button class="profile-ghost-btn small" type="button" id="copyReferralBtn">Copy referral</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-overview-section">
+      <div class="profile-shell">
+        <div class="profile-stat-grid reveal-profile">
+          <div class="profile-stat-card">
+            <span>Lifetime orders</span>
+            <strong id="lifetimeOrders">18</strong>
+            <p>Completed food deliveries</p>
+          </div>
+          <div class="profile-stat-card">
+            <span>Monthly spend</span>
+            <strong id="monthlySpend">LKR 8,450</strong>
+            <p>For your current month</p>
+          </div>
+          <div class="profile-stat-card">
+            <span>Yummy savings</span>
+            <strong id="lifetimeSavings">LKR 740</strong>
+            <p>Coupons + credits used</p>
+          </div>
+          <div class="profile-stat-card">
+            <span>Favourite cuisine</span>
+            <strong>Pizza</strong>
+            <p>Based on order history</p>
+          </div>
+        </div>
+
+        <div class="profile-tab-bar reveal-profile" aria-label="Profile sections">
+          <button class="profile-tab-btn active" type="button" data-profile-tab="overview">Overview</button>
+          <button class="profile-tab-btn" type="button" data-profile-tab="rewards">Loyalty & Rewards</button>
+          <button class="profile-tab-btn" type="button" data-profile-tab="orders">Orders</button>
+          <button class="profile-tab-btn" type="button" data-profile-tab="addresses">Addresses</button>
+          <button class="profile-tab-btn" type="button" data-profile-tab="settings">Settings</button>
+        </div>
+
+        <section class="profile-tab-panel active" id="overview" data-panel="overview">
+          <div class="profile-dashboard-grid">
+            <div class="profile-card wide-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Current order</span>
+                  <h2>Track your latest delivery</h2>
+                </div>
+                <a href="#menu">Order more <i class="fas fa-arrow-right"></i></a>
+              </div>
+              <div class="live-order-card">
+                <div class="order-store-left">
+                  <img src="https://placehold.co/48x48/cc2200/ffffff?text=RO" alt="Red Oven Pizza">
+                  <div>
+                    <h3 id="latestOrderRestaurant">Red Oven Pizza</h3>
+                    <p id="latestOrderMeta">Pepperoni Feast, Classic Margherita</p>
+                  </div>
+                </div>
+                <span class="status-pill preparing" id="latestOrderStatus">Preparing</span>
+              </div>
+              <div class="delivery-progress">
+                <div class="delivery-step done"><span><i class="fas fa-check"></i></span><p>Placed</p></div>
+                <div class="delivery-line active"></div>
+                <div class="delivery-step active"><span><i class="fas fa-fire-burner"></i></span><p>Preparing</p></div>
+                <div class="delivery-line"></div>
+                <div class="delivery-step"><span><i class="fas fa-motorcycle"></i></span><p>On the way</p></div>
+                <div class="delivery-line"></div>
+                <div class="delivery-step"><span><i class="fas fa-house"></i></span><p>Delivered</p></div>
+              </div>
+            </div>
+            <div class="profile-card compact-card">
+              <div class="profile-card-head mini">
+                <h3>Quick reorder</h3>
+                <i class="fas fa-rotate-right"></i>
+              </div>
+              <div class="quick-food-list">
+                <button class="quick-food-item" type="button" data-reorder>
+                  <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=120&h=120&fit=crop" alt="Pizza">
+                  <span>Pepperoni Feast</span>
+                  <strong>LKR 1,650</strong>
+                </button>
+                <button class="quick-food-item" type="button" data-reorder>
+                  <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=120&h=120&fit=crop" alt="Burger">
+                  <span>Burger Combo</span>
+                  <strong>LKR 1,180</strong>
+                </button>
+              </div>
+            </div>
+            <div class="profile-card compact-card">
+              <div class="profile-card-head mini">
+                <h3>Saved address</h3>
+                <i class="fas fa-location-dot"></i>
+              </div>
+              <div class="address-mini">
+                <span>Home</span>
+                <h4>55, Lake Road, Nugegoda</h4>
+                <p>Meet at door • Ring bell once</p>
+              </div>
+              <button class="profile-ghost-btn full" type="button" data-open-tab="addresses">Manage addresses</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-tab-panel" id="rewards" data-panel="rewards">
+          <div class="profile-two-column">
+            <div class="profile-card loyalty-rules-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Loyalty points</span>
+                  <h2>How customers earn points</h2>
+                </div>
+              </div>
+              <div class="earn-grid">
+                <div class="earn-card"><i class="fas fa-receipt"></i><strong>10 points</strong><span>Every LKR 100 spent</span></div>
+                <div class="earn-card"><i class="fas fa-star"></i><strong>20 points</strong><span>Review after delivery</span></div>
+                <div class="earn-card"><i class="fas fa-user-plus"></i><strong>300 points</strong><span>Refer a new friend</span></div>
+                <div class="earn-card"><i class="fas fa-cake-candles"></i><strong>Birthday gift</strong><span>Special monthly coupon</span></div>
+              </div>
+              <div class="tier-table">
+                <div class="tier-row"><span>Bronze</span><p>New customers</p><strong>Basic points</strong></div>
+                <div class="tier-row"><span>Silver</span><p>600+ points</p><strong>Extra coupons</strong></div>
+                <div class="tier-row active"><span>Gold</span><p>1,500+ points</p><strong>Free delivery offers</strong></div>
+                <div class="tier-row"><span>Platinum</span><p>3,000+ points</p><strong>Priority delivery</strong></div>
+              </div>
+            </div>
+            <div class="profile-card rewards-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Redeem</span>
+                  <h2>Available rewards</h2>
+                </div>
+              </div>
+              <div class="reward-list" id="rewardList">
+                <button class="reward-item" type="button" data-points="1000" data-reward="LKR 100 discount">
+                  <div><span>LKR 100 OFF</span><p>Use on any order above LKR 1,200</p></div><strong>1000 pts</strong>
+                </button>
+                <button class="reward-item" type="button" data-points="650" data-reward="Free delivery coupon">
+                  <div><span>Free delivery</span><p>Valid for 7 days after redeeming</p></div><strong>650 pts</strong>
+                </button>
+                <button class="reward-item" type="button" data-points="800" data-reward="Free dessert coupon">
+                  <div><span>Free dessert</span><p>Choose ice cream or brownie cup</p></div><strong>800 pts</strong>
+                </button>
+                <button class="reward-item" type="button" data-points="1200" data-reward="Priority delivery upgrade">
+                  <div><span>Priority delivery</span><p>Direct rider assignment for one order</p></div><strong>1200 pts</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="profile-card coupon-card">
+            <div class="profile-card-head">
+              <div>
+                <span class="section-chip">Coupons</span>
+                <h2>Your active vouchers</h2>
+              </div>
+            </div>
+            <div class="coupon-grid">
+              <div class="coupon-ticket"><span>NEWFOOD25</span><strong>25% off</strong><p>For your next pizza order</p><button data-copy="NEWFOOD25">Copy code</button></div>
+              <div class="coupon-ticket"><span>FREEDRINK</span><strong>Free drink</strong><p>With burger combos</p><button data-copy="FREEDRINK">Copy code</button></div>
+              <div class="coupon-ticket"><span>GOLDDEL</span><strong>LKR 0 delivery</strong><p>Gold member benefit</p><button data-copy="GOLDDEL">Copy code</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-tab-panel" id="orders" data-panel="orders">
+          <div class="profile-card">
+            <div class="profile-card-head">
+              <div>
+                <span class="section-chip">Order history</span>
+                <h2>Your restaurant orders</h2>
+              </div>
+            </div>
+            <div class="orders-list" id="ordersList"></div>
+          </div>
+        </section>
+
+        <section class="profile-tab-panel" id="addresses" data-panel="addresses">
+          <div class="profile-two-column">
+            <div class="profile-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Delivery</span>
+                  <h2>Saved addresses</h2>
+                </div>
+                <button class="profile-primary-btn small" type="button" id="addAddressBtn">Add address</button>
+              </div>
+              <div class="address-list" id="addressList">
+                <div class="address-card active"><i class="fas fa-house"></i><div><span>Home</span><h3>55, Lake Road, Nugegoda</h3><p>Meet at door • Ring bell once</p></div><button>Edit</button></div>
+                <div class="address-card"><i class="fas fa-building"></i><div><span>Work</span><h3>Level 4, Orion City, Colombo</h3><p>Leave at reception</p></div><button>Edit</button></div>
+                <div class="address-card"><i class="fas fa-graduation-cap"></i><div><span>Campus</span><h3>IIT, Colombo</h3><p>Call when arrived</p></div><button>Edit</button></div>
+              </div>
+            </div>
+            <div class="profile-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Payment</span>
+                  <h2>Wallet & payments</h2>
+                </div>
+              </div>
+              <div class="wallet-card"><span>Yummy Credits</span><strong>LKR 410.90</strong><p>Refunds, rewards and promo balances appear here.</p></div>
+              <div class="payment-list">
+                <div class="payment-card active"><i class="fab fa-cc-visa"></i><div><span>Visa Debit</span><p>•••• 4136</p></div><button>Default</button></div>
+                <div class="payment-card"><i class="fas fa-money-bill-wave"></i><div><span>Cash</span><p>Pay on delivery</p></div><button>Use</button></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-tab-panel" id="settings" data-panel="settings">
+          <div class="profile-two-column">
+            <form class="profile-card settings-form" id="profileSettingsForm">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Personal details</span>
+                  <h2>Edit user profile</h2>
+                </div>
+              </div>
+              <div class="form-grid">
+                <label>Full name<input type="text" id="fullNameInput" value="Chethaka Fernando"></label>
+                <label>Email<input type="email" id="emailInput" value="chethaka2003@gmail.com"></label>
+                <label>Phone<input type="tel" id="phoneInput" value="+94 77 123 4567"></label>
+                <label>Birthday<input type="date" id="birthdayInput" value="2003-05-12"></label>
+              </div>
+              <div class="preference-box">
+                <h3>Food preferences</h3>
+                <div class="preference-tags">
+                  <label><input type="checkbox" checked> Pizza lover</label>
+                  <label><input type="checkbox"> Vegetarian</label>
+                  <label><input type="checkbox" checked> Medium spicy</label>
+                  <label><input type="checkbox"> No onions</label>
+                  <label><input type="checkbox"> Gluten-free options</label>
+                </div>
+              </div>
+              <button class="profile-primary-btn" type="submit">Save changes</button>
+            </form>
+            <div class="profile-card settings-side-card">
+              <div class="profile-card-head">
+                <div>
+                  <span class="section-chip">Control center</span>
+                  <h2>Notifications & security</h2>
+                </div>
+              </div>
+              <div class="setting-toggle"><div><strong>Order status alerts</strong><p>Preparation, rider pickup and delivery updates.</p></div><label class="switch"><input type="checkbox" checked><span></span></label></div>
+              <div class="setting-toggle"><div><strong>Reward expiry reminders</strong><p>Notify before coupons or points expire.</p></div><label class="switch"><input type="checkbox" checked><span></span></label></div>
+              <div class="setting-toggle"><div><strong>Weekly deals</strong><p>New pizzas, combos and exclusive offers.</p></div><label class="switch"><input type="checkbox"><span></span></label></div>
+              <div class="support-box">
+                <h3>Need help?</h3>
+                <p>Report an order issue, request a refund, or contact the restaurant support team.</p>
+                <button class="profile-ghost-btn full" type="button" id="supportBtn">Open support center</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+    <div class="profile-toast" id="profileToast">Saved successfully</div>
+
+    <!-- Footer -->
+    <footer class="pizza-footer">
+      <div class="pizza-footer-inner">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo">
+            <img src="https://placehold.co/120x40/cc2200/ffffff?text=RedOven" alt="Red Oven Pizza Logo">
+          </a>
+          <p>Freshly baked pizzas, hot deals, and delicious moments delivered to your door.</p>
+        </div>
+        <div class="footer-links-wrap">
+          <div class="footer-link-column">
+            <h4>Pages</h4>
+            <a href="#">Home</a>
+            <a href="#">Menu</a>
+            <a href="#">Deals</a>
+            <a href="#">Pizza</a>
+          </div>
+          <div class="footer-link-column">
+            <h4>Shop</h4>
+            <a href="#">Combos</a>
+            <a href="#">Family Meals</a>
+            <a href="#">Beverages</a>
+            <a href="#">Desserts</a>
+          </div>
+          <div class="footer-link-column">
+            <h4>Company</h4>
+            <a href="#">About Us</a>
+            <a href="#">Gallery</a>
+            <a href="#">Locations</a>
+            <a href="#">Contact</a>
+          </div>
+          <div class="footer-link-column">
+            <h4>Support</h4>
+            <a href="#">Order Tracking</a>
+            <a href="#">Help Center</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Red Oven Pizza. All rights reserved.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p>Good pizza. Good moments.</p>
+      </div>
+    </footer>
+
+    <!-- Bottom Fixed Menu (mobile) -->
+    <div class="bottom-menu" id="bottomMenu">
+      <div class="bottom-menu-inner">
+        <button id="bottomCartBtn" class="bottom-cart-btn" aria-label="Open Cart">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bottom-cart-count">0</span>
+        </button>
+        <button id="bottomOrderBtn" class="bottom-order-btn">Order Now</button>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js"></script>
+
+    <!-- Product Options Modal -->
+    <div class="modal-overlay" id="productOptionsOverlay">
+        <div class="product-modal uber-style-modal yhm-product-modal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+            <div class="pizza-slice-loader" id="pizzaSliceLoader" aria-hidden="true">
+                <div class="pizza-slice-row">
+                    <i class="fas fa-pizza-slice"></i>
+                    <i class="fas fa-pizza-slice"></i>
+                    <i class="fas fa-pizza-slice"></i>
+                </div>
+                <span>Pizza slices are loading</span>
+            </div>
+            <button class="close-modal-float" id="closeProductBtn" aria-label="Close product options">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="yhm-product-main">
+                <div class="pm-image-wrapper yhm-product-media">
+                    <img src="" alt="Product" class="pm-img" id="pmImg">
+                </div>
+                <div class="pm-scrollable-content yhm-product-content">
+                    <div class="pm-header-info yhm-product-head">
+                        <h2 id="pmTitle">Devilled Chicken Pizza</h2>
+                    </div>
+                    <div class="pm-section yhm-compact-section">
+                        <div class="pm-section-header">
+                            <h3>Select size</h3>
+                            <span class="pm-required-badge">Required</span>
+                        </div>
+                        <div class="pm-options-list yhm-size-list">
+                            <label class="pm-option-row yhm-option-card">
+                                <div class="pm-opt-details">
+                                    <span class="pm-opt-title">Large</span>
+                                    <span class="pm-opt-desc">Best for sharing</span>
+                                </div>
+                                <input type="radio" name="pmsize" value="Large" checked class="uber-radio">
+                            </label>
+                            <label class="pm-option-row yhm-option-card">
+                                <div class="pm-opt-details">
+                                    <span class="pm-opt-title">Medium</span>
+                                    <span class="pm-opt-desc">Perfect for one</span>
+                                </div>
+                                <input type="radio" name="pmsize" value="Medium" class="uber-radio">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pm-section yhm-compact-section">
+                        <div class="pm-section-header">
+                            <h3>Add extra</h3>
+                            <span class="pm-optional-badge">Optional</span>
+                        </div>
+                        <label class="pm-option-row yhm-option-card yhm-extra-card">
+                            <div class="pm-opt-details">
+                                <span class="pm-opt-title">Extra Cheese</span>
+                                <span class="pm-opt-price">+ LKR <span id="pmExtraCheesePrice">250.00</span></span>
+                            </div>
+                            <input type="checkbox" id="pmExtraCheese" class="uber-checkbox">
+                        </label>
+                    </div>
+                    <div class="yhm-modal-summary">
+                        <div>
+                            <span>Total</span>
+                            <strong>LKR <span id="pmFinalTotal">0.00</span></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pm-sticky-footer yhm-product-footer">
+                <div class="pm-qty-control-uber">
+                    <button id="pmQtyMinus" class="pm-qty-uber-btn" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+                    <span id="pmQtyVal" class="pm-qty-uber-val">1</span>
+                    <button id="pmQtyPlus" class="pm-qty-uber-btn" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="pm-footer-actions">
+                    <button id="pmAddToCartBtn" class="uber-btn-primary">Add 1</button>
+                    <button id="pmBuyNowBtn" class="uber-btn-secondary">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authOverlay">
+        <div class="auth-modal uber-auth-modal yhm-auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+            <button class="close-modal-auth" id="closeAuthBtn" aria-label="Close login popup">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="yhm-auth-layout">
+                <div class="yhm-auth-visual" aria-hidden="true">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&h=800&fit=crop" alt="Restaurant int
