@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurants | Sappy Eats</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --primary: #C91A25;
+      --black: #050505;
+      --white: #ffffff;
+      --text: #111827;
+      --muted: #667085;
+      --border: #e5e7eb;
+      --soft-primary: rgba(201, 26, 37, 0.08);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
+      --bg: #fff7f7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    .restaurants-page {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(201, 26, 37, 0.10), transparent 30%),
+        radial-gradient(circle at 90% 22%, rgba(201, 26, 37, 0.06), transparent 26%),
+        #ffffff;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .restaurants-hero {
+      padding: 82px 0 36px;
+      text-align: center;
+    }
+
+    .page-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: var(--soft-primary);
+      border: 1px solid rgba(201, 26, 37, 0.22);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .page-label span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .restaurants-hero h1 {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: 1.04;
+      letter-spacing: -3px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .restaurants-hero h1 span {
+      color: var(--primary);
+    }
+
+    .restaurants-hero p {
+      max-width: 620px;
+      margin: 18px auto 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .search-area {
+      width: min(820px, 100%);
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      background: #ffffff;
+      border: 2px solid rgba(201, 26, 37, 0.22);
+      border-radius: 999px;
+      padding: 7px;
+      box-shadow: 0 20px 60px rgba(201, 26, 37, 0.12);
+    }
+
+    .search-area input {
+      height: 48px;
+      border: none;
+      outline: none;
+      padding: 0 20px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .search-area input::placeholder {
+      color: #111827;
+      opacity: 0.75;
+    }
+
+    .search-area button {
+      height: 48px;
+      padding: 0 28px;
+      border-radius: 999px;
+      border: none;
+      background: var(--black);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .food-type-section {
+      padding: 28px 0 20px;
+    }
+
+    .food-type-filter-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .food-type-filter-title h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.5px;
+    }
+
+    .food-pill-arrows {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .food-pill-arrow {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      border: 1.5px solid rgba(201, 26, 37, 0.25);
+      background: #ffffff;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      transition: 0.25s ease;
+    }
+
+    .food-pill-arrow:hover {
+      border-color: var(--primary);
+      background: #ffffff;
+      color: var(--primary);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .food-type-pills {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 8px 2px 14px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .food-type-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .food-pill {
+      flex: 0 0 auto;
+      min-height: 74px;
+      padding: 10px 28px 10px 10px;
+      border-radius: 999px;
+      border: 2px solid rgba(17, 24, 39, 0.12);
+      background: #ffffff;
+      color: var(--black);
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: 0.25s ease;
+    }
+
+    .food-pill:hover {
+      border-color: rgba(201, 26, 37, 0.48);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .food-pill.active {
+      border-color: var(--primary);
+      color: var(--black);
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .all-types-pill {
+      padding: 10px 34px;
+    }
+
+    .food-pill-img {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--soft-primary);
+      flex: 0 0 auto;
+    }
+
+    .food-pill-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .restaurants-section {
+      padding: 38px 0 90px;
+    }
+
+    .restaurants-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .restaurants-top h2 {
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: var(--black);
+    }
+
+    .restaurants-top p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .result-count {
+      flex: 0 0 auto;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--soft-primary);
+      border: 1px solid rgba(201, 26, 37, 0.15);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .restaurant-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .restaurant-card {
+      background: #ffffff;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.06);
+      transition: 0.25s ease;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.09);
+    }
+
+    .restaurant-img {
+      height: 210px;
+      position: relative;
+      overflow: hidden;
+      background: var(--soft-primary);
+    }
+
+    .restaurant-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.35s ease;
+    }
+
+    .restaurant-card:hover .restaurant-img img {
+      transform: scale(1.06);
+    }
+
+    .rating {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--black);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .food-type-tag {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .restaurant-body {
+      padding: 20px;
+    }
+
+    .restaurant-body h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .restaurant-body p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .restaurant-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .restaurant-meta span {
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: #f8f8f8;
+      border: 1px solid var(--border);
+      color: #344054;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .view-btn {
+      width: 100%;
+      height: 46px;
+      border-radius: 999px;
+      border: none;
+      background: var(--black);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .view-btn:hover {
+      background: var(--primary);
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      border-radius: 26px;
+      background: #ffffff;
+      border: 1px dashed rgba(201, 26, 37, 0.35);
+      text-align: center;
+    }
+
+    .no-results h3 {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .no-results p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .clear-btn {
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: none;
+      background: var(--black);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1050px) {
+      .restaurant-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .food-pill {
+        min-height: 64px;
+        font-size: 15px;
+      }
+
+      .food-pill-img {
+        width: 46px;
+        height: 46px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .restaurants-hero {
+        padding-top: 58px;
+      }
+
+      .search-area {
+        grid-template-columns: 1fr;
+        border-radius: 24px;
+      }
+
+      .search-area button {
+        width: 100%;
+      }
+
+      .restaurants-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .restaurant-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .restaurant-img {
+        height: 230px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 24px, 1200px);
+      }
+
+      .food-type-filter-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .food-pill-arrow {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        font-size: 20px;
+      }
+
+      .food-pill {
+        min-height: 58px;
+        padding: 8px 20px 8px 8px;
+        gap: 12px;
+        font-size: 14px;
+      }
+
+      .all-types-pill {
+        padding: 8px 24px;
+      }
+
+      .food-pill-img {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <div class="restaurants-page">
+
+    <section class="restaurants-hero">
+      <div class="container">
+        <div class="page-label">
+          <span></span>
+          Explore restaurants
+        </div><br>
+
+        <h1>
+          Discover The Best <span>Restaurants</span> Near You
+        </h1><br>
+
+        
+
+        <div class="search-area">
+          <input type="text" id="restaurantSearch" placeholder="Search restaurants, food, or location..." />
+          <button type="button" id="searchBtn">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="food-type-section">
+      <div class="container">
+        <div class="food-type-filter-title">
+          <h2>Choose Food Type</h2>
+
+          <div class="food-pill-arrows">
+            <button class="food-pill-arrow" type="button" id="prevFoodPills">←</button>
+            <button class="food-pill-arrow" type="button" id="nextFoodPills">→</button>
+          </div>
+        </div>
+
+        <div class="food-type-pills" id="foodTypePills">
+          <button class="food-pill all-types-pill active" type="button" data-type="all">
+            All Types
+          </button>
+
+          <button class="food-pill" type="button" data-type="pizza">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=200&q=80" alt="Pizza">
+            </span>
+            Pizza
+          </button>
+
+          <button class="food-pill" type="button" data-type="pasta">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=200&q=80" alt="Pasta">
+            </span>
+            Pasta
+          </button>
+
+          <button class="food-pill" type="button" data-type="burgers">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=200&q=80" alt="Burgers">
+            </span>
+            Burgers
+          </button>
+
+          <button class="food-pill" type="button" data-type="rice">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=200&q=80" alt="Rice and Curry">
+            </span>
+            Rice & Curry
+          </button>
+
+          <button class="food-pill" type="button" data-type="fried-chicken">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=200&q=80" alt="Fried Chicken">
+            </span>
+            Fried Chicken
+          </button>
+
+          <button class="food-pill" type="button" data-type="desserts">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=200&q=80" alt="Desserts">
+            </span>
+            Desserts
+          </button>
+
+          <button class="food-pill" type="button" data-type="drinks">
+            <span class="food-pill-img">
+              <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=200&q=80" alt="Drinks">
+            </span>
+            Drinks
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="restaurants-section" id="restaurants">
+      <div class="container">
+        <div class="restaurants-top">
+          <div>
+            <h2>Available Restaurants</h2>
+            <p>Filter by food type or search to find a restaurant faster.</p>
+          </div>
+
+          <div class="result-count" id="resultCount">0 Restaurants</div>
+        </div>
+
+        <div class="restaurant-grid" id="restaurantGrid"></div>
+      </div>
+    </section>
+
+  </div>
+  <div id="footer-placeholder"></div>
+
+  <script>
+    /* Load common header */
+    fetch("header.html")
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (data) {
+        document.getElementById("header-placeholder").innerHTML = data;
+      });
+
+    const restaurants = [
+      {
+        name: "Pizza Palace",
+        type: "pizza",
+        typeLabel: "Pizza",
+        rating: "4.8",
+        location: "Colombo 03",
+        time: "25 - 35 min",
+        price: "Rs. 450+",
+        desc: "Fresh handmade pizzas, cheesy sides, and family meal deals.",
+        image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Pasta Street",
+        type: "pasta",
+        typeLabel: "Pasta",
+        rating: "4.7",
+        location: "Nugegoda",
+        time: "30 - 40 min",
+        price: "Rs. 650+",
+        desc: "Creamy pasta bowls, spicy sauces, garlic bread, and Italian bites.",
+        image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Burger Hub",
+        type: "burgers",
+        typeLabel: "Burgers",
+        rating: "4.9",
+        location: "Rajagiriya",
+        time: "20 - 30 min",
+        price: "Rs. 590+",
+        desc: "Juicy burgers, crispy fries, loaded combos, and soft drinks.",
+        image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Curry House",
+        type: "rice",
+        typeLabel: "Rice & Curry",
+        rating: "4.6",
+        location: "Bambalapitiya",
+        time: "25 - 35 min",
+        price: "Rs. 420+",
+        desc: "Sri Lankan rice and curry with chicken, fish, and vegetarian options.",
+        image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Crispy Chicken Co.",
+        type: "fried-chicken",
+        typeLabel: "Fried Chicken",
+        rating: "4.8",
+        location: "Dehiwala",
+        time: "20 - 30 min",
+        price: "Rs. 700+",
+        desc: "Golden fried chicken, spicy wings, nuggets, and crunchy meal boxes.",
+        image: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Sweet Bowl",
+        type: "desserts",
+        typeLabel: "Desserts",
+        rating: "4.5",
+        location: "Kollupitiya",
+        time: "15 - 25 min",
+        price: "Rs. 350+",
+        desc: "Cakes, waffles, brownies, ice cream, and sweet dessert jars.",
+        image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Fresh Sip",
+        type: "drinks",
+        typeLabel: "Drinks",
+        rating: "4.4",
+        location: "Wellawatte",
+        time: "15 - 25 min",
+        price: "Rs. 280+",
+        desc: "Fresh juices, milkshakes, iced coffee, mojitos, and smoothies.",
+        image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Urban Bites",
+        type: "burgers",
+        typeLabel: "Burgers",
+        rating: "4.7",
+        location: "Colombo 07",
+        time: "25 - 35 min",
+        price: "Rs. 800+",
+        desc: "Premium burgers, grilled sandwiches, wraps, and loaded fries.",
+        image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Spice Rice Kitchen",
+        type: "rice",
+        typeLabel: "Rice & Curry",
+        rating: "4.6",
+        location: "Maharagama",
+        time: "30 - 45 min",
+        price: "Rs. 480+",
+        desc: "Homestyle rice dishes, curries, kottu, biryani, and local favorites.",
+        image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=900&q=85"
+      }
+    ];
+
+    const restaurantGrid = document.getElementById("restaurantGrid");
+    const resultCount = document.getElementById("resultCount");
+    const searchInput = document.getElementById("restaurantSearch");
+    const foodPills = document.querySelectorAll(".food-pill");
+    const foodTypePills = document.getElementById("foodTypePills");
+    const prevFoodPills = document.getElementById("prevFoodPills");
+    const nextFoodPills = document.getElementById("nextFoodPills");
+
+    let activeType = "all";
+
+    function renderRestaurants() {
+      const searchValue = searchInput.value.toLowerCase().trim();
+
+      const filteredRestaurants = restaurants.filter(function (restaurant) {
+        const matchesType = activeType === "all" || restaurant.type === activeType;
+
+        const matchesSearch =
+          restaurant.name.toLowerCase().includes(searchValue) ||
+          restaurant.typeLabel.toLowerCase().includes(searchValue) ||
+          restaurant.location.toLowerCase().includes(searchValue) ||
+          restaurant.desc.toLowerCase().includes(searchValue);
+
+        return matchesType && matchesSearch;
+      });
+
+      resultCount.textContent =
+        filteredRestaurants.length === 1
+          ? "1 Restaurant"
+          : filteredRestaurants.length + " Restaurants";
+
+      if (filteredRestaurants.length === 0) {
+        restaurantGrid.innerHTML = `
+          <div class="no-results">
+            <h3>No restaurants found</h3>
+            <p>Try another food type or search keyword.</p>
+            <button class="clear-btn" type="button" id="clearFilters">Clear Filters</button>
+          </div>
+        `;
+
+        document.getElementById("clearFilters").addEventListener("click", function () {
+          activeType = "all";
+          searchInput.value = "";
+
+          foodPills.forEach(function (pill) {
+            pill.classList.toggle("active", pill.dataset.type === "all");
+          });
+
+          renderRestaurants();
+        });
+
+        return;
+      }
+
+      restaurantGrid.innerHTML = filteredRestaurants.map(function (restaurant) {
+        return `
+          <article class="restaurant-card">
+            <div class="restaurant-img">
+              <img src="${restaurant.image}" alt="${restaurant.name}">
+              <div class="rating">★ ${restaurant.rating}</div>
+              <div class="food-type-tag">${restaurant.typeLabel}</div>
+            </div>
+
+            <div class="restaurant-body">
+              <h3>${restaurant.name}</h3>
+              <p>${restaurant.desc}</p>
+
+              <div class="restaurant-meta">
+                <span>${restaurant.location}</span>
+                <span>${restaurant.time}</span>
+                <span>${restaurant.price}</span>
+              </div>
+
+              <button class="view-btn" type="button">View Restaurant</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    foodPills.forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        activeType = pill.dataset.type;
+
+        foodPills.forEach(function (item) {
+          item.classList.remove("active");
+        });
+
+        pill.classList.add("active");
+        renderRestaurants();
+      });
+    });
+
+    searchInput.addEventListener("input", renderRestaurants);
+
+    document.getElementById("searchBtn").addEventListener("click", function () {
+      renderRestaurants();
+    });
+
+    prevFoodPills.addEventListener("click", function () {
+      foodTypePills.scrollBy({
+        left: -320,
+        behavior: "smooth"
+      });
+    });
+
+    nextFoodPills.addEventListener("click", function () {
+      foodTypePills.scrollBy({
+        left: 320,
+        behavior: "smooth"
+      });
+    });
+
+    renderRestaurants();
+    /* Load common header */
+fetch("header.html")
+  .then(function (response) {
+    return response.text();
+  })
+  .then(function (data) {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+
+/* Load common footer */
+fetch("footer-common.html")
+  .then(function (response) {
+    return response.text();
+  })
+  .then(function (data) {
+    document.getElementById("footer-placeholder").innerHTML = data;
+  });
+  function loadCommonFile(file, targetId) {
+  fetch(file)
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (data) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = data;
+
+      const scripts = target.querySelectorAll("script");
+
+      scripts.forEach(function (oldScript) {
+        const newScript = document.createElement("script");
+
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    });
+}
+
+loadCommonFile("header.html", "header-placeholder");
+loadCommonFile("footer-common.html", "footer-placeholder");
+  </script>
+
+</body>
+</html>

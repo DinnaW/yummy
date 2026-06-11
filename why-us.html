@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Us | Sappy Eats</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --primary: #C91A25;
+      --black: #050505;
+      --white: #ffffff;
+      --text: #111827;
+      --muted: #667085;
+      --border: #e9e9e9;
+      --soft: #f8f8f8;
+      --soft-primary: rgba(201, 26, 37, 0.06);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .page {
+      width: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(201, 26, 37, 0.08), transparent 30%),
+        radial-gradient(circle at 90% 55%, rgba(201, 26, 37, 0.06), transparent 30%),
+        #ffffff;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Hero Section */
+    .why-hero {
+      padding: 90px 0 40px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: var(--soft-primary);
+      color: var(--black);
+      border: 1px solid rgba(201, 26, 37, 0.24);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
+
+    .hero-badge i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    .why-hero h1 {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.08;
+      letter-spacing: -3px;
+      font-weight: 700;
+    }
+
+    .why-hero h1 span {
+      color: var(--primary);
+    }
+
+    .why-hero p {
+      max-width: 600px;
+      margin: 20px auto 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(28px, 3vw, 38px);
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -1.5px;
+    }
+
+    .section-header p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    /* What You Gain Section */
+    .gain-section {
+      padding: 60px 0;
+    }
+
+    .gain-grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .gain-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gain-card {
+      flex: 0 0 auto;
+      width: 280px;
+      background: rgba(201, 26, 37, 0.02);
+      border: 1px solid rgba(201, 26, 37, 0.08);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.25s ease;
+    }
+
+    .gain-card:hover {
+      background: #ffffff;
+      border-color: rgba(201, 26, 37, 0.25);
+      box-shadow: 0 12px 30px rgba(201, 26, 37, 0.06);
+    }
+
+    .gain-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--soft-primary);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .gain-card span {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.4;
+    }
+
+    /* Switch Testimonials Section */
+    .switch-section {
+      padding: 60px 0 100px;
+    }
+
+    .switch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .switch-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      transition: all 0.25s ease;
+    }
+
+    .switch-card:hover {
+      border-color: rgba(201, 26, 37, 0.25);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.03);
+    }
+
+    .switch-quote {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #374151;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .switch-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .profile-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--soft-primary);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+    }
+
+    .profile-info h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--black);
+    }
+
+    .profile-info p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Hidden Costs Section */
+    .costs-section {
+      padding: 100px 0;
+      background: #fafbfc;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .costs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .costs-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      display: flex;
+      gap: 20px;
+      text-align: left;
+      transition: all 0.25s ease;
+    }
+
+    .costs-card:hover {
+      border-color: rgba(201, 26, 37, 0.25);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.03);
+    }
+
+    .costs-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--soft-primary);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .costs-content h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .costs-content p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .costs-metric {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 1050px) {
+      .switch-grid,
+      .costs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .switch-grid,
+      .costs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dynamic Header Placeholder -->
+  <div id="header-placeholder"></div>
+
+  <div class="page">
+    <main>
+
+      <!-- Hero Section -->
+      <section class="why-hero">
+        <div class="container">
+          <div class="hero-badge">
+            <i></i>
+            Why Sappy Eats
+          </div>
+          <h1>
+            Your Kitchen Deserves <span>Smarter Management</span>
+          </h1>
+          <p>
+            Ditch phone orders and disorganized tickets. Sappy Eats connects your culinary workspace to customers cleanly, protecting your margins and kitchen workflow.
+          </p>
+        </div>
+      </section>
+
+      <!-- What You Gain Section -->
+      <section class="gain-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>What You Gain With Sappy Eats</h2>
+          </div>
+
+          <div class="gain-grid">
+            
+            <div class="gain-card">
+              <div class="gain-icon">
+                <i data-lucide="clock"></i>
+              </div>
+              <span>Save 2-3 Hours Every Day</span>
+            </div>
+
+            <div class="gain-card">
+              <div class="gain-icon">
+                <i data-lucide="trending-up"></i>
+              </div>
+              <span>Increase Bookings & Revenue</span>
+            </div>
+
+            <div class="gain-card">
+              <div class="gain-icon">
+                <i data-lucide="shield-check"></i>
+              </div>
+              <span>Reduce No-Shows & Cancellations</span>
+            </div>
+
+            <div class="gain-card">
+              <div class="gain-icon">
+                <i data-lucide="smile"></i>
+              </div>
+              <span>Happy Diners & More Reviews</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section class="switch-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Restaurants That Made the Switch</h2>
+            <p>They stopped losing. You can too.</p>
+          </div>
+
+          <div class="switch-grid">
+            
+            <div class="switch-card">
+              <p class="switch-quote">
+                "Since using the system, we saved two hours a day on phone coordination and increased our overall delivery revenue by 30%."
+              </p>
+              <div class="switch-profile">
+                <div class="profile-avatar">
+                  <i data-lucide="user"></i>
+                </div>
+                <div class="profile-info">
+                  <h4>Neka S.</h4>
+                  <p>Pizza House Owner</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="switch-card">
+              <p class="switch-quote">
+                "No more double-bookings or missed pickup times. Sappy Eats makes our order management streamlined and customer satisfaction is up."
+              </p>
+              <div class="switch-profile">
+                <div class="profile-avatar">
+                  <i data-lucide="user"></i>
+                </div>
+                <div class="profile-info">
+                  <h4>Arjun M.</h4>
+                  <p>Mocha Cafe Manager</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="switch-card">
+              <p class="switch-quote">
+                "Menu inventory tracking and delivery route reports helped us cut food waste and grow our profit margins significantly."
+              </p>
+              <div class="switch-profile">
+                <div class="profile-avatar">
+                  <i data-lucide="user"></i>
+                </div>
+                <div class="profile-info">
+                  <h4>Priya K.</h4>
+                  <p>Cloud Kitchen Director</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Hidden Costs Section -->
+      <section class="costs-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>The Hidden Costs of Running Without Sappy Eats</h2>
+          </div>
+
+          <div class="costs-grid">
+            
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="clock"></i>
+              </div>
+              <div class="costs-content">
+                <h3>Time Wasted Every Day</h3>
+                <p>Manual orders, phone tags, and delivery coordination take valuable kitchen preparation time.</p>
+                <span class="costs-metric">Lose: 1 - 2 Hours / Day</span>
+              </div>
+            </div>
+
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="user-x"></i>
+              </div>
+              <div class="costs-content">
+                <h3>Customers You Lose</h3>
+                <p>Busy lines, incorrect notes, and delayed responses drive hungry diners to ordering elsewhere.</p>
+                <span class="costs-metric">Lose: 1 - 3 Customers / Week</span>
+              </div>
+            </div>
+
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="trending-down"></i>
+              </div>
+              <div class="costs-content">
+                <h3>Revenue You Miss</h3>
+                <p>Unfilled pickup slots, missing pre-orders, and dispatch gaps reduce total ticket opportunities.</p>
+                <span class="costs-metric">Lose: Rs. 5K - 10K / Day</span>
+              </div>
+            </div>
+
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="megaphone"></i>
+              </div>
+              <div class="costs-content">
+                <h3>No Marketing & Promotions</h3>
+                <p>Without structured tools to run repeat-order campaigns and loyalty offers, your business loses easy visits.</p>
+                <span class="costs-metric">Lose: Up to 20% More Business</span>
+              </div>
+            </div>
+
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="box"></i>
+              </div>
+              <div class="costs-content">
+                <h3>Inventory & Stock Issues</h3>
+                <p>Lacking automated inventory reviews leads directly to raw stockouts, manual counting errors, and waste.</p>
+                <span class="costs-metric">Lose: Rs. 1K - 5K / Day</span>
+              </div>
+            </div>
+
+            <div class="costs-card">
+              <div class="costs-icon">
+                <i data-lucide="frown"></i>
+              </div>
+              <div class="costs-content">
+                <h3>Stress & Burnout</h3>
+                <p>Coordinating orders manually causes ticket slip-ups, staff friction, and workplace fatigue.</p>
+                <span class="costs-metric">Lose: Your Peace of Mind</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Dynamic Footer Placeholder -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Lucide Icon Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    // Initialize Lucide icons
+    function renderIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    // Dynamic loading pattern for Shared Header & Footer
+    function loadTemplate(file, targetId) {
+      return fetch(file)
+        .then(function (response) {
+          if (!response.ok) throw new Error('Error retrieving shared component: ' + file);
+          return response.text();
+        })
+        .then(function (htmlContent) {
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.innerHTML = htmlContent;
+
+            // Handle script execution logic for imported templates
+            const childScripts = targetElement.querySelectorAll("script");
+            childScripts.forEach(function (oldScript) {
+              const newScript = document.createElement("script");
+              if (oldScript.src) {
+                newScript.src = oldScript.src;
+              } else {
+                newScript.textContent = oldScript.textContent;
+              }
+              document.body.appendChild(newScript);
+              oldScript.remove();
+            });
+          }
+        })
+        .catch(function (error) {
+          console.warn("Failed loading static components: ", error);
+        });
+    }
+
+    // Dynamic initial page setups (Only loaded once via Promise.all)
+    document.addEventListener("DOMContentLoaded", function () {
+      Promise.all([
+        loadTemplate("header.html", "header-placeholder"),
+        loadTemplate("footer-common.html", "footer-placeholder")
+      ]).then(() => {
+        renderIcons();
+      });
+    });
+  </script>
+
+</body>
+</html>

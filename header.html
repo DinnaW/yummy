@@ -1,0 +1,404 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #C91A25;
+  --black: #050505;
+  --white: #ffffff;
+  --text: #111827;
+  --muted: #667085;
+  --border: #e9e9e9;
+  --soft: #f8f8f8;
+  --soft-primary: rgba(201, 26, 37, 0.08);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
+}
+
+/* Space for fixed header */
+body {
+  padding-top: 76px;
+}
+
+.header,
+.header * {
+  box-sizing: border-box;
+}
+
+.header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header button {
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.header-inner {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 150px;
+  flex-shrink: 0;
+}
+
+.brand img {
+  width: 148px;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-fallback {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  display: none;
+  white-space: nowrap;
+}
+
+.brand-fallback span {
+  color: var(--primary);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav a {
+  position: relative;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--primary);
+}
+
+.nav a.active {
+  font-weight: 800;
+}
+
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--primary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.login-btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--black);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.partner-btn {
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--black);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.partner-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: none;
+  background: var(--black);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.mobile-nav {
+  display: none;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 12px 0 18px;
+}
+
+.mobile-nav.active {
+  display: block;
+}
+
+.mobile-nav a {
+  display: block;
+  padding: 14px 18px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.mobile-nav a.active {
+  color: var(--primary);
+  background: var(--soft-primary);
+  font-weight: 900;
+}
+
+.mobile-nav a:first-child {
+  border-radius: 16px 16px 0 0;
+}
+
+.mobile-nav a:last-child {
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 16px 16px;
+}
+
+@media (max-width: 1050px) {
+  .nav,
+  .header-actions {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding-top: 70px;
+  }
+
+  .header-inner,
+  .mobile-nav {
+    width: min(100% - 24px, 1200px);
+  }
+
+  .header-inner {
+    height: 70px;
+  }
+
+  .brand img {
+    width: 130px;
+  }
+}
+</style>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="Assets/sappy-eats-logo.png" alt="Sappy Eats Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="brand-fallback">Sappy <span>Eats</span></div>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="restaurants.html" data-nav="restaurants">Restaurants</a>
+      <a href="features.html" data-nav="features">Features</a>
+      <a href="pricing.html" data-nav="pricing">Pricing</a>
+      <a href="why-us.html" data-nav="why">Why Us</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="login-btn" type="button" id="openAuthModal">Log In</button>
+      <button class="partner-btn" type="button" id="openBusinessAuth">Become a Partner</button>
+    </div>
+
+    <button class="menu-toggle" type="button" id="menuToggle">☰</button>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="restaurants.html" data-nav="restaurants">Restaurants</a>
+    <a href="features.html" data-nav="features">Features</a>
+    <a href="pricing.html" data-nav="pricing">Pricing</a>
+    <a href="why-us.html" data-nav="why">Why Us</a>
+  </div>
+</header>
+
+<script>
+(function () {
+  function getCurrentPage() {
+    let page = window.location.pathname.split("/").pop().toLowerCase();
+
+    if (!page || page === "") {
+      page = "index.html";
+    }
+
+    return page;
+  }
+
+  function clearActiveNav() {
+    document.querySelectorAll(".nav a, .mobile-nav a").forEach(function (link) {
+      link.classList.remove("active");
+    });
+  }
+
+  function activateNav(navName) {
+    clearActiveNav();
+
+    document.querySelectorAll('[data-nav="' + navName + '"]').forEach(function (link) {
+      link.classList.add("active");
+    });
+  }
+
+  function setActiveByPage() {
+    const page = getCurrentPage();
+    const hash = window.location.hash.replace("#", "");
+
+    if (page.includes("restaurants")) {
+      activateNav("restaurants");
+      return;
+    }
+
+    if (page.includes("features")) {
+      activateNav("features");
+      return;
+    }
+
+    if (page.includes("pricing")) {
+      activateNav("pricing");
+      return;
+    }
+
+    if (page.includes("why-us") || page.includes("why")) {
+      activateNav("why");
+      return;
+    }
+
+    if (page === "index.html" || page.includes("index")) {
+      if (hash) {
+        activateNav(hash);
+      } else {
+        activateNav("home");
+      }
+      return;
+    }
+
+    activateNav("home");
+  }
+
+  function setActiveByScroll() {
+    const page = getCurrentPage();
+
+    if (!(page === "index.html" || page.includes("index"))) {
+      setActiveByPage();
+      return;
+    }
+
+    const sectionIds = ["features", "pricing", "cities", "why"];
+    let activeSection = "";
+
+    sectionIds.forEach(function (sectionId) {
+      const section = document.getElementById(sectionId);
+
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+
+      if (rect.top <= 140 && rect.bottom >= 140) {
+        activeSection = sectionId;
+      }
+    });
+
+    if (activeSection) {
+      activateNav(activeSection);
+    } else {
+      activateNav("home");
+    }
+  }
+
+  function initMobileMenu() {
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileNav = document.getElementById("mobileNav");
+
+    if (!menuToggle || !mobileNav || menuToggle.dataset.ready === "true") return;
+
+    menuToggle.dataset.ready = "true";
+
+    menuToggle.addEventListener("click", function () {
+      mobileNav.classList.toggle("active");
+    });
+
+    mobileNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        mobileNav.classList.remove("active");
+      });
+    });
+  }
+
+  function initHeader() {
+    initMobileMenu();
+
+    setActiveByPage();
+    setActiveByScroll();
+
+    window.addEventListener("scroll", setActiveByScroll);
+
+    window.addEventListener("hashchange", function () {
+      setActiveByPage();
+
+      setTimeout(function () {
+        setActiveByScroll();
+      }, 120);
+    });
+  }
+
+  initHeader();
+})();
+</script>

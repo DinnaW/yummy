@@ -1,0 +1,511 @@
+<!-- ==========================================
+     COMMON FOOTER COMPONENT
+     (Includes: CTA Banner, Browse By City, Footer)
+     ========================================== -->
+
+<!-- Styles for Common Sections -->
+<style>
+  /* CTA Section */
+  .cta {
+    padding: 72px 0 72px;
+    background: #ffffff;
+  }
+
+  .cta-box {
+    min-height: 310px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #8f1119 0%, #b91520 28%, #C91A25 50%, #df2a35 72%, #a7121c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 45px 24px;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .cta-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.16), transparent 24%),
+      radial-gradient(circle at 82% 28%, rgba(255, 255, 255, 0.10), transparent 22%),
+      radial-gradient(circle at 72% 85%, rgba(255, 255, 255, 0.08), transparent 26%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-box h2 {
+    font-size: clamp(30px, 4vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -1.8px;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .cta-box p {
+    max-width: 540px;
+    margin: 0 auto 28px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .cta-btn {
+    height: 48px;
+    padding: 0 28px;
+    border-radius: 999px;
+    border: none;
+    background: #ffffff;
+    color: #050505;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    transition: 0.25s ease;
+  }
+
+  /* Browse By City Section */
+  .browse {
+    padding: 0 0 82px;
+    background: #ffffff;
+  }
+
+  .browse h3 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 22px;
+    color: #111827;
+  }
+
+  .country-tabs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+
+  .country-tabs button {
+    height: 38px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: #050505;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .country-tabs button:hover {
+    color: #C91A25;
+  }
+
+  .country-tabs button.active {
+    background: #050505;
+    color: #ffffff;
+  }
+
+  .city-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+  }
+
+  .city-col h4 {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    color: #111827;
+  }
+
+  .city-col a {
+    display: block;
+    color: #4b5563;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    transition: 0.25s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .city-col a:hover {
+    color: #C91A25;
+    transform: translateX(3px);
+  }
+
+  /* Footer Section */
+  .footer {
+    background: #f5f5f5;
+    padding: 60px 0 28px;
+    color: #111827;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+    gap: 50px;
+    padding-bottom: 54px;
+    border-bottom: 1px solid #dddddd;
+  }
+
+  .footer-logo {
+    width: 145px;
+    margin-bottom: 18px;
+    margin-left: -7px;
+  }
+
+  .footer-brand p {
+    max-width: 320px;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 900;
+    margin-bottom: 18px;
+    color: #111827;
+  }
+
+  .footer-col a {
+    display: block;
+    color: #667085;
+    font-size: 13px;
+    margin-bottom: 12px;
+    transition: 0.25s ease;
+    text-decoration: none;
+  }
+
+  .footer-col a:hover {
+    color: #C91A25;
+  }
+
+  .social-row {
+    display: flex;
+    gap: 14px;
+  }
+
+  .social-row a {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e9e9e9;
+    display: grid;
+    place-items: center;
+    color: #050505;
+    transition: 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  }
+
+  .social-row a svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .social-row a:hover {
+    background: #C91A25;
+    color: #ffffff;
+    border-color: #C91A25;
+    transform: translateY(-3px);
+  }
+
+  .footer-bottom {
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: #667085;
+    font-size: 13px;
+  }
+
+  .footer-bottom a {
+    margin-left: 18px;
+    color: #667085;
+    text-decoration: none;
+  }
+
+  .footer-bottom a:hover {
+    color: #C91A25;
+  }
+
+  /* Responsive Design Styles */
+  @media (max-width: 1050px) {
+    .city-grid,
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .city-grid,
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-box {
+      min-height: 260px;
+    }
+
+    .footer-bottom {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .footer-bottom a {
+      margin-left: 0;
+      margin-right: 14px;
+    }
+  }
+</style>
+
+<!-- HTML Markup for the Shared Component -->
+<section class="cta" id="partner">
+  <div class="container">
+    <div class="cta-box">
+      <div class="cta-content">
+        <h2>Ready To Grow Your Food Business?</h2>
+        <p>
+          Start receiving online orders, managing deliveries, and reaching
+          more hungry customers with Sappy Eats.
+        </p>
+        <button class="cta-btn" type="button" id="openBusinessAuthCta">Become a Partner</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="browse" id="cities">
+  <div class="container">
+    <h3>Browse By City</h3>
+
+    <div class="country-tabs" id="countryTabs">
+      <button class="active" type="button" data-country="Sri Lanka">Sri Lanka</button>
+      <button type="button" data-country="Australia">Australia</button>
+      <button type="button" data-country="Canada">Canada</button>
+      <button type="button" data-country="France">France</button>
+      <button type="button" data-country="Denmark">Denmark</button>
+      <button type="button" data-country="Italy">Italy</button>
+      <button type="button" data-country="Mexico">Mexico</button>
+      <button type="button" data-country="USA">USA</button>
+      <button type="button" data-country="New Zealand">New Zealand</button>
+    </div>
+
+    <div class="city-grid" id="cityGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="Assets/sappy-eats-logo.png" alt="Sappy Eats Logo" class="footer-logo">
+        <p>
+          We deliver smart food ordering and delivery tools to help food
+          businesses grow and serve customers faster.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>For Businesses</h4>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Franchise</a>
+        <a href="#">Delivery Network</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Industries</h4>
+        <a href="#">Restaurants</a>
+        <a href="#">Cloud Kitchens</a>
+        <a href="#">Cafes</a>
+        <a href="#">Bakeries</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5ZM12 7a5 5 0 1 1 0 10a5 5 0 1 1 0-10Zm0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6Zm5.25-2.35a1.15 1.15 0 1 1 0 2.3a1.15 1.15 0 0 1 0-2.3Z"/>
+            </svg>
+          </a>
+
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+              <path d="M14 8.5V6.75C14 6.25 14.25 6 14.85 6H17V2.25C16.55 2.18 15.35 2 14.1 2C11.45 2 9.65 3.6 9.65 6.5V8.5H6.7V12.7H9.65V22H14V12.7H16.9L17.55 8.5H14Z"/>
+            </svg>
+          </a>
+
+          <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24">
+              <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5S1.12 1 2.5 1S4.98 2.12 4.98 3.5ZM.35 8h4.3v14H.35V8ZM8 8h4.12v1.92h.06C12.75 8.84 14.16 7.7 16.33 7.7C20.75 7.7 21.6 10.6 21.6 14.38V22h-4.3v-6.75c0-1.62-.03-3.7-2.25-3.7c-2.25 0-2.6 1.76-2.6 3.58V22H8V8Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© Copyright Sappy Eats 2026</p>
+      <div>
+        <a href="#">All Rights Reserved</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Functional Javascript for Dynamic Layout Elements -->
+<script>
+  (function () {
+    const cityData = {
+      "Sri Lanka": ["Colombo", "Kandy", "Galle", "Negombo", "Mount Lavinia"],
+      "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+      "Canada": ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
+      "France": ["Paris", "Lyon", "Nice", "Marseille", "Bordeaux"],
+      "Denmark": ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Roskilde"],
+      "Italy": ["Rome", "Milan", "Naples", "Florence", "Venice"],
+      "Mexico": ["Mexico City", "Cancun", "Guadalajara", "Monterrey", "Puebla"],
+      "USA": ["New York", "Los Angeles", "Chicago", "Houston", "Miami"],
+      "New Zealand": ["Auckland", "Wellington", "Christchurch", "Hamilton", "Queenstown"]
+    };
+
+    const cityFoodLinks = [
+      { label: "Pizza Delivery", food: "Pizza", shopName: "Pizza House" },
+      { label: "Burger Shops", food: "Burgers", shopName: "Burger Hub" },
+      { label: "Rice Meals", food: "Rice & Curry", shopName: "Rice Kitchen" },
+      { label: "Cafes", food: "Cafe", shopName: "Cafe Corner" },
+      { label: "Desserts", food: "Desserts", shopName: "Dessert Bar" },
+      { label: "Chicken Shops", food: "Chicken", shopName: "Chicken Box" }
+    ];
+
+    function renderCityGrid(country) {
+      const cityGrid = document.getElementById("cityGrid");
+      if (!cityGrid) return;
+
+      const cities = cityData[country];
+      if (!cities) {
+        cityGrid.innerHTML = "";
+        return;
+      }
+
+      cityGrid.innerHTML = cities.map((city) => {
+        const links = cityFoodLinks.map((item) => `
+          <a href="#restaurants" 
+             class="city-filter-link" 
+             data-city="${city}" 
+             data-food="${item.food}">
+            ${item.label} in ${city}
+          </a>
+        `).join("");
+
+        return `
+          <div class="city-col">
+            <h4>${city}</h4>
+            ${links}
+          </div>
+        `;
+      }).join("");
+
+      activateCityLinks();
+    }
+
+    function activateCityLinks() {
+      const cityLinks = document.querySelectorAll(".city-filter-link");
+      cityLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const city = link.dataset.city;
+          const food = link.dataset.food;
+          const restaurantsSection = document.getElementById("restaurants");
+          const locationFilter = document.getElementById("locationFilter");
+
+          if (restaurantsSection && locationFilter) {
+            event.preventDefault();
+            locationFilter.value = city;
+            const foodFilter = document.getElementById("foodFilter");
+            if (foodFilter) {
+              foodFilter.value = food;
+              const activePill = document.querySelector(`.food-pill[data-food="${food}"]`);
+              if (activePill) activePill.click();
+            }
+            if (typeof applyFilters === "function") {
+              applyFilters();
+            }
+            restaurantsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.location.href = `index.html?city=${encodeURIComponent(city)}&food=${encodeURIComponent(food)}#restaurants`;
+          }
+        });
+      });
+    }
+
+    function initializeComponent() {
+      const countryTabs = document.getElementById("countryTabs");
+      if (!countryTabs) return;
+
+      // Handle Initial City Grid Display setup
+      const activeTab = countryTabs.querySelector("button.active");
+      if (activeTab) {
+        renderCityGrid(activeTab.dataset.country || "Sri Lanka");
+      } else {
+        renderCityGrid("Sri Lanka");
+      }
+
+      // Event Delegation for tab buttons to prevent duplicate handler registrations
+      if (countryTabs.dataset.listenerBound !== "true") {
+        countryTabs.dataset.listenerBound = "true";
+        countryTabs.addEventListener("click", (event) => {
+          const tabButton = event.target.closest("button");
+          if (!tabButton) return;
+
+          const tabs = countryTabs.querySelectorAll("button");
+          tabs.forEach((btn) => btn.classList.remove("active"));
+          tabButton.classList.add("active");
+
+          const country = tabButton.dataset.country;
+          if (country) {
+            renderCityGrid(country);
+          }
+        });
+      }
+
+      // Bind authentication modal popup trigger cleanly
+      const ctaBtn = document.getElementById("openBusinessAuthCta");
+      if (ctaBtn && ctaBtn.dataset.listenerBound !== "true") {
+        ctaBtn.dataset.listenerBound = "true";
+        ctaBtn.addEventListener("click", () => {
+          if (typeof openAuthPanel === "function") {
+            openAuthPanel("partnerPhoneModal");
+          }
+        });
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initializeComponent);
+    } else {
+      initializeComponent();
+    }
+  })();
+</script>
